@@ -16,7 +16,7 @@ model Post {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
 
-    content String 
+    content String @db.Text 
     ownerId   String 
 
     @@index([ownerId])
