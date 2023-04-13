@@ -1,15 +1,15 @@
-import { SignIn, SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
 import Head from "next/head";
-import RequestCard from "../components/RequestCard";
-import Nav from "../components/Nav";
+import PopUpButton from "~/components/PopUpButton";
+import PostView from "~/components/PostView";
 import { api } from "~/utils/api";
+import Nav from "../components/Nav";
 
 const Home: NextPage = () => {
   const user = useUser();
   const { data } = api.posts.getAll.useQuery();
-
-  console.log("user: ", user);
+  // console.log("user: ", user?.user?.id);
   return (
     <>
       <Head>
@@ -20,11 +20,13 @@ const Home: NextPage = () => {
       <main className="relative h-screen">
         <Nav />
 
-        <div className="relative z-[-1] flex h-full w-full flex-col bg-emerald-50 p-4 md:flex-row lg:px-20 lg:py-6">
-          {data?.map((post) => {
-            return <RequestCard key={post.id} content={post.content} />;
+        <div className="relative flex h-full w-full flex-col bg-emerald-50 p-4 md:flex-row lg:px-20 lg:py-6">
+          {data?.map((fullPost) => {
+            return <PostView {...fullPost} key={fullPost.post.id} />;
           })}
         </div>
+
+        <PopUpButton />
       </main>
     </>
   );

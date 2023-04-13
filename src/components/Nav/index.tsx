@@ -1,11 +1,12 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import React from "react";
+import ProfileIcon from "../ProfileIcon/index";
 
 const Nav = () => {
   const user = useUser();
 
   return (
-    <nav className="sticky top-0 bg-white shadow-md">
+    <nav className="sticky top-0 z-[100] bg-white shadow-md">
       <div className="w-full px-4 sm:px-6 lg:px-20">
         <div className="flex h-20 items-center justify-between">
           <div className="flex-shrink-0">
@@ -14,7 +15,7 @@ const Nav = () => {
             </a>
           </div>
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-center space-x-4">
               {/* <div className="group relative">
                 <a
                   href="#"
@@ -68,6 +69,7 @@ const Nav = () => {
               </div> */}
               {!user.isSignedIn && <SignInButton />}
               {!!user.isSignedIn && <SignOutButton />}
+              <ProfileIcon />
             </div>
           </div>
         </div>
