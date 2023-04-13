@@ -14,7 +14,7 @@ const PostView = (props: PostWithUser) => {
     //RequestCard START
     <div
       key={post.id}
-      className="relative my-2 h-fit w-full rounded-lg bg-white p-2 shadow-md md:m-2 md:h-[265px] md:w-[18rem]"
+      className="relative my-2 h-fit w-full rounded-lg bg-white p-2 pb-[1.5rem] shadow-md md:m-2 md:h-[265px] md:w-[18rem] md:p-2"
     >
       <a
         href={`/owner/ownerId=${owner?.id}`}

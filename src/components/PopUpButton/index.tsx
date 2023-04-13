@@ -25,6 +25,7 @@ const PopUpButton = () => {
           ].map((supportLink) => {
             return (
               <a
+                key={supportLink.text}
                 href={supportLink.link}
                 className="relative mb-1 inline-block text-lg text-white after:absolute after:inset-x-0 after:bottom-0 after:h-0 after:w-0 after:bg-white hover:after:h-[0.125rem] hover:after:w-full hover:after:transition-all hover:after:duration-300"
               >

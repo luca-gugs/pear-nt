@@ -9,26 +9,15 @@ const RequestForm = () => {
     setMessage(event.target.value);
   };
 
-  const handleSubmit = (event: {
-    preventDefault: () => void;
-    target: { name: { value: any }; email: { value: any }; reset: () => void };
-  }) => {
-    event.preventDefault();
-    // Do something with the form data, e.g. submit to API or update state
-    console.log("Form submitted:", {
-      name: event.target.name.value,
-      email: event.target.email.value,
-      message: message,
-    });
-    // Reset form fields
-    event.target.reset();
+  const handleSubmit = () => {
+    console.log("messaage ", message);
     setMessage("");
   };
 
   return (
     <form
       className="mx-auto max-w-lg rounded bg-white px-8 py-6 shadow-md"
-      onSubmit={handleSubmit as any}
+      onSubmit={handleSubmit}
     >
       <h2 className="mb-6 text-2xl font-semibold">Contact Us</h2>
       <div className="mb-4">
