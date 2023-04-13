@@ -1,16 +1,15 @@
 import React, { useState } from "react";
+import { api } from "~/utils/api";
 
 const RequestForm = () => {
   const [message, setMessage] = useState("");
+  const [address, setAddress] = useState("");
 
-  const handleMessageChange = (event: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
-    setMessage(event.target.value);
-  };
+  const { mutate } = api.posts.create.useMutation();
 
   const handleSubmit = () => {
     console.log("messaage ", message);
+    mutate({ content: message });
     setMessage("");
   };
 
@@ -32,22 +31,11 @@ const RequestForm = () => {
           id="name"
           type="text"
           placeholder="2 Willow Lane, Sausalito, CA, 94965"
+          value={address}
+          onChange={(e) => setAddress(e.target.value)}
         />
       </div>
-      <div className="mb-4">
-        <label
-          className="mb-2 block text-sm font-bold text-gray-700"
-          htmlFor="email"
-        >
-          Email
-        </label>
-        <input
-          className="w-full appearance-none rounded border border-gray-300 px-3 py-2 leading-tight text-gray-700 focus:border-indigo-500 focus:outline-none"
-          id="email"
-          type="email"
-          placeholder="Email Address"
-        />
-      </div>
+
       <div className="mb-4">
         <label
           className="mb-2 block text-sm font-bold text-gray-700"
@@ -60,7 +48,7 @@ const RequestForm = () => {
           id="message"
           placeholder="Share as much as possible about the current issue you are having, how long it has been effecting you, and how soon you expect this to be resolved"
           value={message}
-          onChange={handleMessageChange}
+          onChange={(e) => setMessage(e.target.value)}
         ></textarea>
       </div>
       <button
