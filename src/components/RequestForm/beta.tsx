@@ -74,10 +74,9 @@ const CreatePostWizard = () => {
           >
             Thanks for reaching out we will follow up as soon as we can
           </h3>
-          {/* <Link></Link> */}
           <p>
             Click here to go to your dashboard to track the status of your
-            requests or update it with additional concerns, we'll send you an
+            requests or update it with additional concerns, we will send you an
             email once we get to work.
           </p>
           <br />
