@@ -1,11 +1,14 @@
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { api } from "~/utils/api";
+
+// counter for render performance tracking
+// let counter = 0;
 
 const CreatePostWizard = () => {
   const { user } = useUser();
-  const { push } = useRouter();
 
   const [input, setInput] = useState("");
   const [slidingOff, setSlidingOff] = useState(false);
@@ -26,9 +29,9 @@ const CreatePostWizard = () => {
     onError: (e) => {
       const errorMessage = e.data?.zodError?.fieldErrors.content;
       if (errorMessage && errorMessage[0]) {
-        // toast.error(errorMessage[0]);
+        toast.error(errorMessage[0]);
       } else {
-        // toast.error("Failed to post! Please try again later.");
+        toast.error("Failed to post! Please try again later.");
       }
     },
   });
@@ -38,6 +41,7 @@ const CreatePostWizard = () => {
   return (
     <>
       <div className="relative">
+        {/* <div>{counter++}</div> */}
         <div
           className={`z-10 flex h-[18rem] w-[30rem] rounded bg-white px-8 py-6 text-start shadow-md ${
             slidingOff ? "opacity-0 transition-opacity duration-500" : ""
@@ -74,13 +78,25 @@ const CreatePostWizard = () => {
           >
             Thanks for reaching out we will follow up as soon as we can
           </h3>
-          <p>
+          <p
+            className={`${
+              slidingIn
+                ? "opacity-100 transition-opacity duration-500"
+                : "opacity-0 transition-opacity duration-500"
+            } `}
+          >
             Click here to go to your dashboard to track the status of your
             requests or update it with additional concerns, we will send you an
             email once we get to work.
           </p>
           <br />
-          <p>
+          <p
+            className={`${
+              slidingIn
+                ? "opacity-100 transition-opacity duration-500"
+                : "opacity-0 transition-opacity duration-500"
+            } `}
+          >
             Something else on your mind...click here to create another request
           </p>
         </div>
