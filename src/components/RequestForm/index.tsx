@@ -3,23 +3,30 @@ import React, { useState } from "react";
 import { api } from "~/utils/api";
 
 const RequestForm = () => {
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
   const [address, setAddress] = useState("");
-  const { push } = useRouter();
 
-  const { mutate } = api.posts.create.useMutation();
+  const ctx = api.useContext();
 
-  const handleSubmit = () => {
-    console.log("messaage ", message);
-    mutate({ content: message });
-    setMessage("");
-    // push("/");
-  };
+  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+    onSuccess: () => {
+      setMessage("");
+      void ctx.posts.getAll.invalidate();
+    },
+    onError: (e) => {
+      const errorMessage = e.data?.zodError?.fieldErrors.content;
+      // if (errorMessage && errorMessage[0]) {
+      //   toast.error(errorMessage[0]);
+      // } else {
+      //   toast.error("Failed to post! Please try again later.");
+      // }
+    },
+  });
 
   return (
     <form
       className="mx-auto max-w-lg rounded bg-white px-8 py-6 shadow-md"
-      onSubmit={handleSubmit}
+      // onSubmit={handleSubmit}
     >
       <h2 className="mb-6 text-2xl font-semibold">Contact Us</h2>
       <div className="mb-4">
@@ -55,8 +62,8 @@ const RequestForm = () => {
         ></textarea>
       </div>
       <button
+        onClick={() => mutate({ content: message })}
         className="focus:shadow-outline rounded bg-indigo-500 px-4 py-2 font-bold text-white hover:bg-indigo-600 focus:outline-none"
-        type="submit"
       >
         Submit
       </button>
