@@ -1,20 +1,29 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
-import React from "react";
+import React, { useState } from "react";
 import ProfileIcon from "../ProfileIcon/index";
+import SideNav from "./SideNav";
+import Link from "next/link";
 
 const Nav = () => {
   const user = useUser();
+  const [isOpen, setIsOpen] = useState(true);
 
+  const toggleNav = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <nav className="fixed top-0 z-[100] w-full bg-white shadow-md">
       <div className="w-full px-4 sm:px-6 lg:px-20">
         <div className="flex h-20 items-center justify-between">
           <div className="flex-shrink-0">
-            <a href="#" className="text-[2.5rem] font-bold text-gray-800">
+            <Link
+              href="/"
+              className="ml-16 text-[2.5rem] font-bold text-gray-800 md:ml-16 lg:ml-0"
+            >
               Gideon
-            </a>
+            </Link>
           </div>
-          <div className="hidden md:block">
+          <div className="block md:block">
             <div className="ml-10 flex items-center space-x-4">
               {/* <div className="group relative">
                 <a
@@ -67,9 +76,10 @@ const Nav = () => {
                   </a>
                 </div>
               </div> */}
-              {!user.isSignedIn && <SignInButton />}
-              {!!user.isSignedIn && <SignOutButton />}
+
               <ProfileIcon />
+
+              <SideNav />
             </div>
           </div>
         </div>

@@ -10,7 +10,6 @@ import {
 } from "~/server/api/trpc";
 
 const filterUserForCLient = (user: User) => {
-  console.log(user.username, user.firstName);
   return {
     id: user.id,
     username: user.username
@@ -26,6 +25,7 @@ const filterUserForCLient = (user: User) => {
 export const postsRouter = createTRPCRouter({
   //important to note that publicProcedures could be called by anyone
   getAll: publicProcedure.query(async ({ ctx }) => {
+    console.log("ALPHA");
     const posts = await ctx.prisma.post.findMany({
       take: 20,
     });
@@ -36,7 +36,6 @@ export const postsRouter = createTRPCRouter({
         limit: 20,
       })
     ).map(filterUserForCLient);
-    console.log("key", users);
 
     return posts.map((post) => {
       const owner = users.find((user) => user.id === post.ownerId);
@@ -53,16 +52,24 @@ export const postsRouter = createTRPCRouter({
     // return ctx.prisma.post.findMany();
   }),
   create: privateProcedure
-    .input(z.object({ content: z.string().min(1) }))
+    .input(
+      z.object({
+        content: z.string().min(1).max(280),
+      })
+    )
     .mutation(async ({ ctx, input }) => {
       const ownerId = ctx.userId;
 
+      // const { success } = await ratelimit.limit(authorId);
+      // if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
+
       const post = await ctx.prisma.post.create({
         data: {
-          ownerId,
+          ownerId: ownerId,
           content: input.content,
         },
       });
+      console.log("post:", post);
 
       return post;
     }),

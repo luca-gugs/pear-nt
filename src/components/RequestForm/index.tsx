@@ -1,9 +1,11 @@
+import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { api } from "~/utils/api";
 
 const RequestForm = () => {
   const [message, setMessage] = useState("");
   const [address, setAddress] = useState("");
+  const { push } = useRouter();
 
   const { mutate } = api.posts.create.useMutation();
 
@@ -11,6 +13,7 @@ const RequestForm = () => {
     console.log("messaage ", message);
     mutate({ content: message });
     setMessage("");
+    // push("/");
   };
 
   return (

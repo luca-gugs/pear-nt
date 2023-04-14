@@ -1,13 +1,19 @@
 import { NextPage } from "next";
-import React from "react";
+import React, { useState } from "react";
 import Nav from "~/components/Nav";
 import RequestForm from "~/components/RequestForm";
 
 const RequestPage: NextPage = () => {
+  const [isSlideOff, setIsSlideOff] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsSlideOff(true);
+  };
+
   return (
     <div className="relative h-screen">
       <Nav />
-      <div className="relativeflex h-full w-full flex-col bg-emerald-50 p-4 md:flex-row lg:px-20 lg:py-6">
+      <div className="relative flex h-full w-full flex-col flex-wrap items-center justify-center bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
         <RequestForm />
       </div>
     </div>

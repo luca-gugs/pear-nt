@@ -22,7 +22,7 @@ const Home: NextPage = () => {
       <main className="relative h-screen">
         <Nav />
 
-        <div className="relative flex h-full w-full flex-col bg-emerald-50 p-4 pt-[95px] md:flex-row lg:px-20 lg:py-6 lg:pt-[100px]">
+        <div className="relative flex h-full w-full flex-col flex-wrap bg-emerald-50 p-4 pt-[95px] md:flex-row lg:px-20 lg:py-6 lg:pt-[100px]">
           {data ? (
             data?.map((fullPost) => {
               return <PostView {...fullPost} key={fullPost.post.id} />;
