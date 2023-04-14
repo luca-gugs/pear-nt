@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import Link from "next/link";
 import { RouterOutputs } from "~/utils/api";
 import { trimContent } from "~/utils/helpers";
 
@@ -16,18 +17,18 @@ const PostView = (props: PostWithUser) => {
       key={post.id}
       className="relative my-2 h-fit w-full min-w-[18rem] rounded-lg bg-white p-2 pb-[1.5rem] shadow-md md:m-2 md:h-[265px] md:w-[20rem] md:p-2"
     >
-      <a
-        href={`/owner/ownerId=${owner?.id}`}
+      <Link
+        href={`/${owner?.id}`}
         className="absolute bottom-2 left-2 text-xs text-slate-400 transition-colors duration-200 hover:text-black"
       >
         {owner?.username}
-      </a>
-      <span
-        // href={`/owner/ownerId=${owner?.id}`}
-        className="absolute bottom-2 right-2 text-xs text-slate-800 "
+      </Link>
+      <Link
+        href={`/post/${post?.id}`}
+        className="absolute bottom-2 right-2 text-xs text-slate-400 transition-colors duration-200 hover:text-black"
       >
         {dayjs(post.createdAt).fromNow()}
-      </span>
+      </Link>
       <div className="p-4">
         <h3 className="mb-2 text-xl font-semibold">
           {post.content.slice(0, 35) + "..."}
