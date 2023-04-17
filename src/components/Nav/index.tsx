@@ -76,7 +76,8 @@ const Nav = () => {
                   </a>
                 </div>
               </div> */}
-
+              {!user.isSignedIn && <SignInButton />}
+              {!!user.isSignedIn && <SignOutButton />}
               <ProfileIcon />
 
               <SideNav />

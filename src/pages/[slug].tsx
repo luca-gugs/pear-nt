@@ -1,7 +1,6 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
-import LoadingSpinner from "~/components/LoadingSpinner";
 import PopUpButton from "~/components/PopUpButton";
 import { api } from "~/utils/api";
 import Nav from "../components/Nav";
@@ -15,8 +14,6 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
 
   if (!data) return <div>404</div>;
 
-  console.log("dataL ", data);
-
   return (
     <>
       <Head>
@@ -27,9 +24,10 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
       <main className="relative	 min-h-screen">
         <Nav />
         <>
-          <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap bg-emerald-50 p-4 pt-[95px] md:flex-row lg:px-20 lg:py-6 lg:pt-[100px]">
+          <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
             {/* {isLoading ? <LoadingSpinner /> : !data ? <h2>404</h2> : ""} */}
             {data?.username && <h1 className="text-3xl">{data?.username}</h1>}
+            <ProfileFeed userId={username} />
           </div>
           <PopUpButton />
         </>
@@ -37,8 +35,9 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
     </>
   );
 };
-// import { createContext } from "server/context";
+
 import superjson from "superjson";
+import ProfileFeed from "~/components/ProfileFeed";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 
