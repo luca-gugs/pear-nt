@@ -76,7 +76,13 @@ const Nav = () => {
                   </a>
                 </div>
               </div> */}
-              {!user.isSignedIn && <SignInButton />}
+              {!user.isSignedIn && (
+                <SignInButton mode="modal">
+                  <button className="rounded-md bg-black px-6 py-3 font-bold text-white shadow-md transition duration-300 hover:shadow-lg">
+                    Sign In
+                  </button>
+                </SignInButton>
+              )}
               {!!user.isSignedIn && <SignOutButton />}
               <ProfileIcon />
 
