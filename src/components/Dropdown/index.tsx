@@ -46,7 +46,7 @@ const Dropdown: React.FC<Props> = ({ assignees, selected, setSelected }) => {
           <div className="w-full py-1">
             {assignees?.map((assignee: Assignee) => {
               return (
-                <Menu.Item>
+                <Menu.Item key={assignee.userId}>
                   {({ active }) => (
                     <button
                       onClick={() => setSelected(assignee.name)}
