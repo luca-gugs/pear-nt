@@ -11,6 +11,29 @@ import {
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
 import { Redis } from "@upstash/redis";
 import filterUserForClient from "~/server/helpers/filterUserForClient";
+import { Post } from "@prisma/client";
+
+const addUserDataToPosts = async (posts: Post[]) => {
+  const users = (
+    await clerkClient.users.getUserList({
+      userId: posts.map((post) => post.ownerId),
+      limit: 20,
+    })
+  ).map(filterUserForClient);
+
+  return posts.map((post) => {
+    const owner = users.find((user) => user.id === post.ownerId);
+    if (!owner)
+      throw new TRPCError({
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Author For Post Not found",
+      });
+    return {
+      post,
+      owner,
+    };
+  });
+};
 
 // Create a new ratelimiter, that allows 10 requests per 10 seconds
 const ratelimit = new Ratelimit({
@@ -33,25 +56,7 @@ export const postsRouter = createTRPCRouter({
       orderBy: [{ createdAt: "desc" }],
     });
 
-    const users = (
-      await clerkClient.users.getUserList({
-        userId: posts.map((post) => post.ownerId),
-        limit: 20,
-      })
-    ).map(filterUserForClient);
-
-    return posts.map((post) => {
-      const owner = users.find((user) => user.id === post.ownerId);
-      if (!owner)
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: "Author For Post Not found",
-        });
-      return {
-        post,
-        owner,
-      };
-    });
+    return addUserDataToPosts(posts);
   }),
 
   getPostsByUserId: publicProcedure
@@ -69,6 +74,18 @@ export const postsRouter = createTRPCRouter({
         orderBy: [{ createdAt: "desc" }],
       });
       return posts;
+    }),
+
+  getById: publicProcedure
+    .input(z.object({ id: z.string() }))
+    .query(async ({ ctx, input }) => {
+      const post = await ctx.prisma.post.findUnique({
+        where: { id: input.id },
+      });
+
+      if (!post) throw new TRPCError({ code: "NOT_FOUND" });
+
+      return (await addUserDataToPosts([post]))[0];
     }),
 
   create: privateProcedure
