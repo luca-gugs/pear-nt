@@ -8,11 +8,43 @@ datasource db {
   relationMode = "prisma"
 }
 
+
+//Gideon Types
 model Post {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   content   String   @db.Text
   ownerId   String
+
+  @@index([ownerId])
+}
+
+
+//EasyDoc Types
+model UserDocs {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  ownerName String? @db.Text
+  email   String @unique
+  type     String? @db.Text
+
+  ownerId   String @unique
+  payStubOne  String? @db.Text
+  payStubOneStatus  String @db.Text @default("missing")
+
+  payStubTwo  String? @db.Text
+  payStubTwoStatus  String @db.Text @default("missing")
+
+  bankStmntOne  String? @db.Text
+  bankStmntOneStatus  String @db.Text @default("missing")
+
+  bankStmntTwo  String? @db.Text
+  bankStmntTwoStatus  String @db.Text @default("missing")
+
+  bankStmntThree  String? @db.Text
+  bankStmntThreeStatus  String @db.Text @default("missing")
+
+
 
   @@index([ownerId])
 }

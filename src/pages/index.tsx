@@ -1,9 +1,5 @@
-import { SignInButton, useUser } from "@clerk/nextjs";
 import { type NextPage } from "next";
-import Head from "next/head";
-import LoadingSpinner from "~/components/LoadingSpinner";
-import PopUpButton from "~/components/PopUpButton";
-import PostView from "~/components/PostView";
+import ProjectList from "~/components/ProjectList";
 import { api } from "~/utils/api";
 import Nav from "../components/Nav";
 
@@ -11,21 +7,14 @@ const Home: NextPage = () => {
   const { data, isLoading } = api.posts.getAll.useQuery();
 
   return (
-    <main className="relative	 min-h-screen">
-      <Nav />
+    <main className="relative	 min-h-screen bg-emerald-50">
+      <Nav isHome={true} />
       <>
-        <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap bg-emerald-50 p-4 pt-[95px] md:flex-row lg:px-20 lg:py-6 lg:pt-[100px]">
-          {!isLoading && data && data.length > 0 ? (
-            data?.map((fullPost) => {
-              return <PostView {...fullPost} key={fullPost.post.id} />;
-            })
-          ) : (
-            <div className="flex h-full w-full items-center justify-center">
-              <LoadingSpinner />
-            </div>
-          )}
+        <div className="flex h-[100vh] w-full justify-center px-4 pt-[10rem] md:px-10 lg:px-20 ">
+          <div className="w-full max-w-[50rem]">
+            <ProjectList />
+          </div>
         </div>
-        <PopUpButton />
       </>
     </main>
   );

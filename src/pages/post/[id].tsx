@@ -8,7 +8,6 @@ import Nav from "../../components/Nav";
 const SinglePostPage: NextPage<{ id: string }> = ({ id }) => {
   // user for checking if active user is looking at own profile
   // const user = useUser();
-  console.log("id here: ", id);
 
   const { data } = api.posts.getById.useQuery({
     id,
@@ -54,7 +53,6 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   if (typeof id !== "string") throw new Error("No post id");
   //this allows us to prefetch the data and hydrate it through server side props
-  console.log("ID PREFETCH");
   await helpers.posts.getById.prefetch({ id });
   return {
     props: {

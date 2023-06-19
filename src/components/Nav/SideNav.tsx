@@ -1,7 +1,7 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
 
-const SideNav = () => {
+const SideNav = ({ isHome = false }) => {
   const user = useUser();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -12,7 +12,6 @@ const SideNav = () => {
 
   return (
     <div>
-      {/* Hamburger menu */}
       <div
         className="fixed left-0 top-0 z-50 cursor-pointer bg-black p-4 text-white"
         onClick={toggleNav}
@@ -37,8 +36,8 @@ const SideNav = () => {
       >
         {/* Nav content */}
         <ul className="pt-16 text-white">
-          {!user.isSignedIn && <SignInButton />}
-          {!!user.isSignedIn && <SignOutButton />}
+          {!user.isSignedIn && !isHome && <SignInButton />}
+          {!!user.isSignedIn && !isHome && <SignOutButton />}
           {/* <li className="mb-4">
             <a href="#home">Home</a>
           </li>
