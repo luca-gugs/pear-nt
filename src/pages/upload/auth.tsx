@@ -31,8 +31,6 @@ const UploadAuthRedirect: NextPage<{ id?: string }> = (context) => {
     },
   });
 
-  console.log("user: ", user);
-
   useEffect(() => {
     if (user) {
       const { firstName, lastName, primaryEmailAddress } = user;

@@ -41,7 +41,7 @@ const UploadHome: NextPage<{ id?: string }> = (context) => {
         <Nav isHome={true} />
         <>
           <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap items-center justify-center bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
-            {/* <SignUp redirectUrl="/upload/auth" afterSignUpUrl="/upload/auth" /> */}
+            <SignUp redirectUrl="/upload/auth" afterSignUpUrl="/upload/auth" />
           </div>
         </>
       </main>
