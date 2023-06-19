@@ -113,7 +113,7 @@ export const docsRouter = createTRPCRouter({
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         // userDoc: z.any(),
-        userDoc: z.object({}),
+        userDoc: z.any(),
         ownerId: z.string().min(1),
       })
     )
@@ -124,12 +124,13 @@ export const docsRouter = createTRPCRouter({
       const { success } = await ratelimit.limit(ownerId);
       if (!success) throw new TRPCError({ code: "TOO_MANY_REQUESTS" });
 
+      console.log("MEGA-KEY: ", input.userDoc);
+
       const updateUser = await ctx.prisma.userDocs.update({
         where: {
           ownerId: input.ownerId,
         },
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         data: input.userDoc,
       });
 

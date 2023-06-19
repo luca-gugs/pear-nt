@@ -5,16 +5,14 @@ const projects = [
   {
     name: "Gideon",
     link: "/repair-dashboard",
-    description: "A Repair Request Tool",
-    imageUrl:
-      "/help.png",
+    description: "When your home needs a repair Gideon is there",
+    imageUrl: "/help.png",
   },
   {
     name: "EasyDoc",
     link: "/upload",
-    description: "A Document Upload and managment System",
-    imageUrl:
-      "/file.png",
+    description: "Documenting uploads for the rest of us",
+    imageUrl: "/file.png",
   },
 ];
 
@@ -28,7 +26,6 @@ type Project = {
 };
 
 const ProjectList = () => {
-  
   return (
     <ul role="list" className="divide-y divide-gray-100">
       {projects.map((project) => (
@@ -45,11 +42,11 @@ const ProjectList = () => {
               src={project.imageUrl}
               alt=""
             />
-            <div className="ml-4 flex flex-col justify-center min-w-0">
+            <div className="ml-4 flex min-w-0 flex-col justify-center">
               <p className="text-6xl font-semibold  text-gray-900">
                 {project.name}
               </p>
-              <p className="mt-1 truncate text-lg text-gray-500">
+              <p className="mt-4 truncate text-lg text-gray-500">
                 {project.description}
               </p>
             </div>
