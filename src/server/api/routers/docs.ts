@@ -65,9 +65,9 @@ export const docsRouter = createTRPCRouter({
   }),
 
   getByUser: publicProcedure
-    .input(z.object({ username: z.string() }))
+    .input(z.object({ username: z.string(), isAdmin: z.optional(z.boolean()) }))
     .query(async ({ ctx, input }) => {
-      if (input.username !== ctx.userId) {
+      if (input.username !== ctx.userId && !input.isAdmin) {
         throw new TRPCError({ code: "FORBIDDEN" });
       }
 

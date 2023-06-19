@@ -18,17 +18,28 @@ const UploadAdminPage: NextPage<{ id?: string }> = (context) => {
       <main className="relative	 min-h-screen">
         <Nav isHome={true} />
         <>
-          <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap items-center justify-center bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
-            {data &&
-              data.map(({ ownerName, ownerId, email }) => {
-                return (
-                  <Link
-                    href={`/upload/admin/${ownerId}`}
-                    className="other-shadow flex items-center justify-between rounded-full bg-white p-4 font-bold"
-                    key={email}
-                  >
-                    <p className="ml-2 text-lg">{ownerName}</p>
-                    {/* {status === "missing" ? (
+          <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[140px]">
+            <h1 className="mb-5 text-4xl font-semibold underline">
+              Admin Portal
+            </h1>
+            <div className="flex w-full space-x-8">
+              {data &&
+                data.map(({ ownerName, ownerId, email }) => {
+                  return (
+                    <Link
+                      href={`/upload/admin/${ownerId}`}
+                      className="other-shadow flex h-fit w-fit flex-col rounded-md bg-white p-4"
+                      key={email}
+                    >
+                      <p className="ml-2 text-lg">
+                        <span className="text-sm">name: </span>
+                        {ownerName}
+                      </p>
+                      <p className="text-md ml-2">
+                        <span className="text-sm">email: </span> {email}
+                      </p>
+
+                      {/* {status === "missing" ? (
                   <div className="rounded-full border-2 border-solid  border-red-400 bg-red-200 px-4 py-2 text-sm font-bold">
                     Missing
                   </div>
@@ -43,9 +54,10 @@ const UploadAdminPage: NextPage<{ id?: string }> = (context) => {
                 ) : (
                   <div>error</div>
                 )} */}
-                  </Link>
-                );
-              })}
+                    </Link>
+                  );
+                })}
+            </div>
           </div>
         </>
       </main>

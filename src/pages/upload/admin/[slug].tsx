@@ -3,16 +3,20 @@ import { GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
 import superjson from "superjson";
 import DocStatusCard from "~/components/DocStatusCard";
-import LoadingSpinner from "~/components/LoadingSpinner";
+import LoadingSpinner from "~/components/Atoms/LoadingSpinner";
 import Nav from "~/components/Nav";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
+import { useState } from "react";
+import SelectUserDocType from "~/components/Atoms/Select";
 
 const UserUploadHome: NextPage<{ username: string }> = ({ username }) => {
   const { data, error, isLoading } = api.docs.getByUser.useQuery({
     username,
+    isAdmin: true,
   });
+  const [value, setValue] = useState(undefined);
 
   return (
     <>
@@ -25,6 +29,10 @@ const UserUploadHome: NextPage<{ username: string }> = ({ username }) => {
           <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap items-center justify-center bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
             {isLoading ? (
               <LoadingSpinner />
+            ) : data && data.type === "unknown" ? (
+              <>
+                <SelectUserDocType value={value} setValue={setValue} />
+              </>
             ) : data ? (
               <>
                 <DocStatusCard admin={true} userDoc={data} />

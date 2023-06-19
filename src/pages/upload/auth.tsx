@@ -3,7 +3,7 @@ import { GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import LoadingSpinner from "~/components/LoadingSpinner";
+import LoadingSpinner from "~/components/Atoms/LoadingSpinner";
 import Nav from "~/components/Nav";
 import { api } from "~/utils/api";
 
@@ -16,16 +16,26 @@ const UploadAuthRedirect: NextPage<{ id?: string }> = (context) => {
   const { mutate, isLoading: isPosting } = api.docs.create.useMutation({
     onSuccess: () => {
       console.log("SUCCESS");
-      // eslint-disable-next-line
-      router.push(`/upload/${user?.id}`);
+      console.log("user-new: ", user);
+
+      if (user?.primaryEmailAddress?.emailAddress) {
+        // eslint-disable-next-line
+        router.push(`/upload/admin`);
+      } else {
+        // eslint-disable-next-line
+        router.push(`/upload/${user?.id}`);
+      }
     },
     onError: (e) => {
       console.log("ERROR: ", e.message);
-      if (
-        e.message.includes("Unique constraint failed on the (not available)")
-      ) {
-        // eslint-disable-next-line
-        router.push(`/upload/${user?.id}`);
+      if (e.message.includes("Unique constraint")) {
+        if (user?.primaryEmailAddress?.emailAddress.includes("easyknock")) {
+          // eslint-disable-next-line
+          router.push(`/upload/admin`);
+        } else {
+          // eslint-disable-next-line
+          router.push(`/upload/${user?.id}`);
+        }
         // toast.error("You already have a ticket open");
       }
     },

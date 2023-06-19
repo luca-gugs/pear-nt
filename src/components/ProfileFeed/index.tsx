@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { api } from "~/utils/api";
 import Dropdown from "../Dropdown";
-import LoadingSpinner from "../LoadingSpinner";
+import LoadingSpinner from "../Atoms/LoadingSpinner";
 import relativeTime from "dayjs/plugin/relativeTime";
 
 dayjs.extend(relativeTime);

@@ -3,7 +3,7 @@ import { GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
 import superjson from "superjson";
 import DocStatusCard from "~/components/DocStatusCard";
-import LoadingSpinner from "~/components/LoadingSpinner";
+import LoadingSpinner from "~/components/Atoms/LoadingSpinner";
 import Nav from "~/components/Nav";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";

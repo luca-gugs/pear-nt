@@ -1,6 +1,6 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import React, { useState } from "react";
-import ProfileIcon from "../ProfileIcon/index";
+import ProfileIcon from "../Atoms/ProfileIcon/index";
 import SideNav from "./SideNav";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -13,6 +13,8 @@ const Nav = ({ isHome = false }) => {
   const toggleNav = () => {
     setIsOpen(!isOpen);
   };
+  console.log("rj: ", router);
+
   return (
     <nav className="fixed top-0 z-[100] w-full bg-white shadow-md">
       <div className="w-full px-4 sm:px-6 lg:px-12">
@@ -42,7 +44,13 @@ const Nav = ({ isHome = false }) => {
                   </button>
                 </SignInButton>
               )}
-              {!!user.isSignedIn && !isHome && <SignOutButton />}
+              {!!user.isSignedIn && (
+                <SignOutButton
+                  signOutCallback={() => {
+                    router.reload();
+                  }}
+                />
+              )}
               {user?.user?.id && (
                 <Link href={`/upload/${user?.user?.id}`}>
                   <ProfileIcon />

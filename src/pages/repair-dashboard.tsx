@@ -1,6 +1,6 @@
 import { type NextPage } from "next";
-import LoadingSpinner from "~/components/LoadingSpinner";
-import PopUpButton from "~/components/PopUpButton";
+import LoadingSpinner from "~/components/Atoms/LoadingSpinner";
+import PopUpButton from "~/components/Atoms/PopUpButton";
 import PostView from "~/components/PostView";
 import { api } from "~/utils/api";
 import Nav from "../components/Nav";

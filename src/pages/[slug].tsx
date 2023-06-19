@@ -1,7 +1,7 @@
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import { GetStaticProps, type NextPage } from "next";
 import Head from "next/head";
-import PopUpButton from "~/components/PopUpButton";
+import PopUpButton from "~/components/Atoms/PopUpButton";
 import { api } from "~/utils/api";
 import Nav from "../components/Nav";
 

@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import superjson from "superjson";
-import LoadingSpinner from "~/components/LoadingSpinner";
+import LoadingSpinner from "~/components/Atoms/LoadingSpinner";
 import Nav from "~/components/Nav";
 import { appRouter } from "~/server/api/root";
 import { prisma } from "~/server/db";
