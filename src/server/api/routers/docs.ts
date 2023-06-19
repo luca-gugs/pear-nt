@@ -11,7 +11,7 @@ import {
 import { Ratelimit } from "@upstash/ratelimit"; // for deno: see above
 import { Redis } from "@upstash/redis";
 import filterUserForClient from "~/server/helpers/filterUserForClient";
-import { Post } from "@prisma/client";
+import { Post, UserDocs } from "@prisma/client";
 
 // const addUserDataToPosts = async (posts: Post[]) => {
 //   const users = (
@@ -110,14 +110,15 @@ export const docsRouter = createTRPCRouter({
   update: privateProcedure
     .input(
       z.object({
-        // ownerName: z.string().min(1).optional(),
-        // email: z.string().email(),
-        // type: z.string().min(1),
-        userDoc: z.any(),
-        ownerId: z.any(),
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        // userDoc: z.any(),
+        userDoc: z.object({}),
+        ownerId: z.string().min(1),
       })
     )
     .mutation(async ({ ctx, input }) => {
+      // console.log("USERDOC: ", input.userDoc);
       const ownerId = ctx.userId;
 
       const { success } = await ratelimit.limit(ownerId);
@@ -127,6 +128,8 @@ export const docsRouter = createTRPCRouter({
         where: {
           ownerId: input.ownerId,
         },
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         data: input.userDoc,
       });
 

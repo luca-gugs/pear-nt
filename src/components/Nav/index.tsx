@@ -17,7 +17,7 @@ const Nav = ({ isHome = false }) => {
     <nav className="fixed top-0 z-[100] w-full bg-white shadow-md">
       <div className="w-full px-4 sm:px-6 lg:px-12">
         <div className="flex h-20 items-center justify-between">
-          <div className="flex-shrink-0 flex items-center">
+          <div className="flex flex-shrink-0 items-center">
             <Link
               href="/"
               className="ml-16 text-[2.5rem] font-bold text-gray-800 md:ml-16 lg:ml-0"
@@ -29,7 +29,9 @@ const Nav = ({ isHome = false }) => {
                 ? "Gideon"
                 : "EasyLife"}
             </Link>
-            {router.pathname.includes("upload") && <p className="ml-8">Document Uploads for the rest of us</p>}
+            {router.pathname.includes("upload") && (
+              <p className="ml-8">Document Uploads for the rest of us</p>
+            )}
           </div>
           <div className="block md:block">
             <div className="ml-10 flex items-center space-x-4">
@@ -41,9 +43,11 @@ const Nav = ({ isHome = false }) => {
                 </SignInButton>
               )}
               {!!user.isSignedIn && !isHome && <SignOutButton />}
-              <Link href={`/upload/${user?.user?.id}`}>
-                <ProfileIcon />
-              </Link>
+              {user?.user?.id && (
+                <Link href={`/upload/${user?.user?.id}`}>
+                  <ProfileIcon />
+                </Link>
+              )}
 
               {!isHome && <SideNav isHome={isHome} />}
             </div>

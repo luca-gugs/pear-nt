@@ -27,18 +27,20 @@ const UploadHome: NextPage<{ id?: string }> = (context) => {
 
   useEffect(() => {
     if (user) {
-      const { firstName, lastName, primaryEmailAddress } = user as any;
+      const { firstName, lastName, primaryEmailAddress } = user;
       const type = "unknown";
       const name = `${firstName || "FIRST"} ${lastName || "LAST"}`;
-      mutate({
-        ownerName: name,
-        email: primaryEmailAddress?.emailAddress,
-        type,
-      });
+      if (typeof primaryEmailAddress?.emailAddress == "string") {
+        mutate({
+          ownerName: name,
+          email: primaryEmailAddress?.emailAddress,
+          type,
+        });
+      }
     }
   }, [user]);
 
-  console.log('user: ', user)
+  console.log("user: ", user);
   return (
     <>
       <Head>{/* <title>{data}</title> */}</Head>
@@ -58,19 +60,7 @@ const UploadHome: NextPage<{ id?: string }> = (context) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
-  //   const helpers = createServerSideHelpers({
-  //     router: appRouter,
-  //     ctx: { prisma, userId: null },
-  //     transformer: superjson, // optional - adds superjson serialization
-  //   });
-
-  //   const id = context.params?.id;
-
-  //   if (typeof id !== "string") throw new Error("No post id");
-  //   //this allows us to prefetch the data and hydrate it through server side props
-  //   await helpers.posts.getById.prefetch({ id });
-
+export const getStaticProps: GetStaticProps = (context) => {
   return {
     props: {
       context,

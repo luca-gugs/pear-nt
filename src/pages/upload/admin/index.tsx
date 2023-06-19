@@ -53,7 +53,7 @@ const UploadAdminPage: NextPage<{ id?: string }> = (context) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = (context) => {
   //   const helpers = createServerSideHelpers({
   //     router: appRouter,
   //     ctx: { prisma, userId: null },

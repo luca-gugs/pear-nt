@@ -17,21 +17,22 @@ import "@uploadthing/react/styles.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { UserDocs } from "@prisma/client";
 
-const UploadDocTypePage: NextPage<{ doctype: any }> = ({ doctype }) => {
+const UploadDocTypePage: NextPage<{ doctype: { slug: string } }> = ({
+  doctype,
+}) => {
   const user = useUser();
-  const [userDoc, setUserDoc] = useState<any>();
+  const [userDoc, setUserDoc] = useState<UserDocs>();
+  const slug = doctype.slug;
 
   const { data, error, isLoading } = api.docs.getByUser.useQuery({
     username: user?.user?.id || "",
   });
 
-
-
   useEffect(() => {
     setUserDoc(data);
   }, [data]);
-
 
   const { mutate, isLoading: isPosting } = api.docs.update.useMutation({
     onSuccess: (result) => {
@@ -48,9 +49,10 @@ const UploadDocTypePage: NextPage<{ doctype: any }> = ({ doctype }) => {
     },
   });
 
-
-
-
+  let url = "";
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  url = `/${userDoc[doctype.slug]}`;
   return (
     <>
       <Head>{/* <title>{data?.username}</title> */}</Head>
@@ -60,18 +62,24 @@ const UploadDocTypePage: NextPage<{ doctype: any }> = ({ doctype }) => {
         <>
           <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap items-center justify-center bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
             <main className="flex flex-col items-center  p-24">
-              {userDoc && doctype.slug && !userDoc[doctype.slug] ? (
+              {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment 
+                  // @ts-ignore */}
+              {userDoc && doctype.slug && !userDoc[slug] ? (
                 <>
                   <UploadDropzone<OurFileRouter>
                     endpoint="imageUploader"
-                    onClientUploadComplete={async (res) => {
+                    onClientUploadComplete={(res) => {
                       // Do something with the response
                       if (res) {
                         // console.log("Files: ", res, res[0]);
                         // console.log("userDoc: ", userDoc);
                         // console.log("docType: ", doctype.slug);
                         // mutate({});
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
                         userDoc[`${doctype.slug}Status`] = "In Review";
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
                         userDoc[doctype.slug] = res[0]?.fileUrl;
                         mutate({
                           userDoc,
@@ -88,17 +96,27 @@ const UploadDocTypePage: NextPage<{ doctype: any }> = ({ doctype }) => {
               ) : (
                 <div className="flex flex-col items-center">
                   <h3 className="max-w-[40rem] text-2xl">
-                    Looks Like We've Already got something on file for this doc,
-                    click it to see what you've submitted
+                    Looks Like We&apos;ve Already got something on file for this
+                    doc, click it to see what you&apos;ve submitted
                   </h3>
-                 {userDoc && userDoc[doctype.slug] && <Link target='blank' className="text-[20rem]" href={userDoc[doctype.slug]}>
-                    <Image
-                      height={400}
-                      width={400}
-                      src="/file.png"
-                      alt="file-uploade-icon"
-                    />
-                  </Link>}
+                  {/* // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore */}
+                  {userDoc && userDoc[doctype.slug] && doctype.slug && (
+                    <Link
+                      target="blank"
+                      className="text-[20rem]"
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-ignore
+                      href={url}
+                    >
+                      <Image
+                        height={400}
+                        width={400}
+                        src="/file.png"
+                        alt="file-uploade-icon"
+                      />
+                    </Link>
+                  )}
                 </div>
               )}
               {/* <button onClick={handleDocUpload}>hey now</button> */}
@@ -110,7 +128,7 @@ const UploadDocTypePage: NextPage<{ doctype: any }> = ({ doctype }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = (context) => {
   const helpers = createServerSideHelpers({
     router: appRouter,
     ctx: { prisma, userId: null },
@@ -118,14 +136,9 @@ export const getStaticProps: GetStaticProps = async (context) => {
   });
 
   const slug = context.params;
-
-  //   if (typeof slug !== "string") throw new Error("No slug");
-  //this allows us to prefetch the data and hydrate it through server side props
   //   await helpers.profile.getUserByUsername.prefetch({ username: slug });
   return {
     props: {
-      //   trpcState: helpers.dehydrate(),
-      //   username: slug,
       doctype: slug,
     },
   };

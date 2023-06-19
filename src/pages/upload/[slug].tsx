@@ -30,7 +30,7 @@ const UserUploadHome: NextPage<{ username: string }> = ({ username }) => {
                 <DocStatusCard userDoc={data} />
               </>
             ) : error ? (
-              <>Sorry We Couldn't find what you were looking for</>
+              <>Sorry We Couldn&apos;t find what you were looking for</>
             ) : (
               <>Unknown Error</>
             )}

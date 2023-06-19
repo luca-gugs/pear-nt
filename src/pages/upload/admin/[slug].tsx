@@ -14,7 +14,6 @@ const UserUploadHome: NextPage<{ username: string }> = ({ username }) => {
     username,
   });
 
-
   return (
     <>
       <Head>{/* <title>{data?.username}</title> */}</Head>
@@ -31,7 +30,7 @@ const UserUploadHome: NextPage<{ username: string }> = ({ username }) => {
                 <DocStatusCard admin={true} userDoc={data} />
               </>
             ) : error ? (
-              <>Sorry We Couldn't find what you were looking for</>
+              <>Sorry We Couldn&apos;t find what you were looking for</>
             ) : (
               <>Unknown Error</>
             )}
