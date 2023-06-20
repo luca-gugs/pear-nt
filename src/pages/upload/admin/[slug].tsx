@@ -29,7 +29,7 @@ const UserUploadHome: NextPage<{ username: string }> = ({ username }) => {
           <div className="relative flex h-full min-h-screen w-full flex-col flex-wrap items-center justify-center bg-emerald-50 p-4 pt-[95px] lg:px-20 lg:py-6 lg:pt-[100px]">
             {isLoading ? (
               <LoadingSpinner />
-            ) : data && data.type === "unknown" ? (
+            ) : data && data.type === "zord" ? (
               <>
                 <SelectUserDocType value={value} setValue={setValue} />
               </>
