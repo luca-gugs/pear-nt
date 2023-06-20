@@ -18,7 +18,7 @@ const UploadAuthRedirect: NextPage<{ id?: string }> = (context) => {
       console.log("SUCCESS");
       console.log("user-new: ", user);
 
-      if (user?.primaryEmailAddress?.emailAddress) {
+      if (user?.primaryEmailAddress?.emailAddress.includes("easyknock")) {
         // eslint-disable-next-line
         router.push(`/upload/admin`);
       } else {
