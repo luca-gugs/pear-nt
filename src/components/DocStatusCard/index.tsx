@@ -43,6 +43,9 @@ const DocStatusCard = ({ userDoc, admin = false }: DocStatusCardProps) => {
       status: bankStmntThreeStatus,
     },
   ];
+
+  console.log("userDoc: ", userDoc);
+
   return (
     <div className="relative">
       <div className="shadow-longer z-2 absolute top-[-2rem] w-fit rounded-md bg-zinc-100 p-4">
@@ -61,8 +64,18 @@ const DocStatusCard = ({ userDoc, admin = false }: DocStatusCardProps) => {
             return (
               <div className="flex w-full items-center" key={idx}>
                 <Link
-                  // target={"blank"}
-                  href={`/upload/doctype/${keyId}`}
+                  target={admin ? "blank" : ""}
+                  href={
+                    !admin
+                      ? `/upload/doctype/${keyId}`
+                      : `${
+                          // eslint-disable-next-line
+                          (userDoc as any)[keyId]
+                            ? // eslint-disable-next-line
+                              (userDoc as any)[keyId]
+                            : "#"
+                        }`
+                  }
                   className="other-shadow flex w-full items-center justify-between rounded-full p-4 font-bold"
                   key={name}
                 >
